@@ -1,0 +1,4 @@
+{
+  "mongoURI": "mongodb://carvalhoslts:effortify2019@ds261486.mlab.com:61486/effortify",
+  "jwtSecret": "sesame"
+}
