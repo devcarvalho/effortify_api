@@ -13,6 +13,9 @@ const userValidations = [
   check('cpf', 'O CPF é obrigatório!')
     .not()
     .isEmpty(),
+  check('role', 'O cargo é obrigatório!')
+    .not()
+    .isEmpty(),
   check('email', 'Por favor, digite um email válido!').isEmail(),
   check(
     'password',
@@ -40,6 +43,7 @@ router.post('/', auth, userValidations, async (req, res) => {
     password,
     cpf,
     level,
+    role,
     phone_number,
     hour_value,
     avatar
@@ -67,6 +71,7 @@ router.post('/', auth, userValidations, async (req, res) => {
         email,
         cpf,
         level,
+        role,
         phone_number: phone_number ? phone_number : '',
         hour_value: hour_value ? hour_value : '',
         avatar: avatar ? avatar : ''
