@@ -150,38 +150,17 @@ router.put('/:id', [auth, userValidations], async (req, res) => {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const {
-    name,
-    email,
-    password,
-    cpf,
-    level,
-    role,
-    phone_number,
-    hour_value,
-    avatar
-  } = req.body;
+  const { password, role, phone_number, hour_value, avatar } = req.body;
 
   try {
-    user = new User({
-      name,
-      email,
-      cpf,
-      level,
-      role,
-      phone_number: phone_number ? phone_number : '',
-      hour_value: hour_value ? hour_value : '',
-      avatar: avatar ? avatar : ''
-    });
-
     const salt = await bcrypt.genSalt(10);
 
-    user.password = await bcrypt.hash(password, salt);
+    const newPassword = await bcrypt.hash(password, salt);
 
     const criteria = { _id: req.params.id };
 
     await User.updateOne(criteria, {
-      $set: { password: user.password, avatar, phone_number, hour_value }
+      $set: { password: newPassword, avatar, phone_number, hour_value, role }
     });
 
     res.json({ msg: 'Usuário atualizado com sucesso!' });
@@ -198,7 +177,7 @@ router.put('/:id', [auth, userValidations], async (req, res) => {
   }
 });
 
-// @route   DELETE api/users
+// @route   DELETE api/users/:id
 // @desc    remove user
 // @access  private
 router.delete('/:id', auth, async (req, res) => {
