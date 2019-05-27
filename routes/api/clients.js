@@ -79,7 +79,7 @@ router.post('/', [auth, clientValidations], async (req, res) => {
 
     const client = await newClient.save();
 
-    res.json({ msg: 'Cliente registrado com sucesso!', client });
+    res.json({ msg: 'Cliente registrado com sucesso!' });
   } catch (err) {
     res.status(500).json({
       error: [
