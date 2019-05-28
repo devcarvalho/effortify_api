@@ -1,10 +1,6 @@
 const mongoose = require('mongoose');
 
 const storieSchema = new mongoose.Schema({
-  project: {
-    type: mongoose.Types.ObjectId,
-    ref: 'project'
-  },
   sprint: {
     type: mongoose.Types.ObjectId,
     ref: 'sprint'
@@ -22,6 +18,9 @@ const storieSchema = new mongoose.Schema({
     type: Number
   },
   description: {
+    type: String
+  },
+  url: {
     type: String
   }
 });
