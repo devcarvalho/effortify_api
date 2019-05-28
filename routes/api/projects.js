@@ -45,7 +45,7 @@ router.get('/:id', auth, async (req, res) => {
       return res.status(404).json({ msg: 'Projeto não encontrado!' });
     }
 
-    res.json(client);
+    res.json(project);
   } catch (err) {
     if (err.kind === 'ObjectId') {
       return res.status(404).json({ msg: 'Projeto não encontrado!' });
