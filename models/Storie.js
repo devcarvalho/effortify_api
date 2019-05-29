@@ -2,15 +2,9 @@ const mongoose = require('mongoose');
 
 const storieSchema = new mongoose.Schema({
   sprint: {
-    type: mongoose.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'sprint'
   },
-  tasks: [
-    {
-      type: mongoose.Types.ObjectId,
-      ref: 'task'
-    }
-  ],
   wi: {
     type: String
   },

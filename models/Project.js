@@ -2,15 +2,9 @@ const mongoose = require('mongoose');
 
 const projectSchema = new mongoose.Schema({
   client: {
-    type: mongoose.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'client'
   },
-  sprints: [
-    {
-      type: mongoose.Types.ObjectId,
-      ref: 'sprint'
-    }
-  ],
   name: {
     type: String,
     required: true

@@ -110,19 +110,11 @@ router.post('/', [auth, sprintValidations], async (req, res) => {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const {
-    project,
-    stories,
-    teams,
-    description,
-    start_date,
-    end_date
-  } = req.body;
+  const { project, teams, description, start_date, end_date } = req.body;
 
   try {
     const newSprint = new Sprint({
       project,
-      stories,
       teams,
       description,
       start_date,
@@ -153,20 +145,13 @@ router.put('/:id', [auth, sprintValidations], async (req, res) => {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const {
-    project,
-    stories,
-    teams,
-    description,
-    start_date,
-    end_date
-  } = req.body;
+  const { teams, description, start_date, end_date } = req.body;
 
   try {
     const criteria = { _id: req.params.id };
 
     await Sprint.updateOne(criteria, {
-      $set: { stories, teams, description, start_date, end_date }
+      $set: { teams, description, start_date, end_date }
     });
 
     res.json({ msg: 'Sprint atualizada com sucesso!' });

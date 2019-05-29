@@ -28,7 +28,7 @@ router.post('/', userValidations, async (req, res) => {
 
     if (!user) {
       return res.status(400).json({
-        error: [
+        errors: [
           {
             msg: 'Usuário inexistente!'
           }
@@ -40,7 +40,7 @@ router.post('/', userValidations, async (req, res) => {
 
     if (!isMatch) {
       return res.status(400).json({
-        error: [
+        errors: [
           {
             msg: 'Senha incorreta!'
           }
@@ -56,11 +56,11 @@ router.post('/', userValidations, async (req, res) => {
 
     jwt.sign(payload, config.get('jwtSecret'), (err, token) => {
       if (err) throw err;
-      res.json({ token });
+      res.json({ token, user });
     });
   } catch (err) {
     res.status(500).json({
-      error: [
+      errors: [
         {
           msg:
             'Algo deu errado, por favor verifique sua conexão e tente novamente.'

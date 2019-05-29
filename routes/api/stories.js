@@ -104,12 +104,11 @@ router.post('/', [auth, storieValidations], async (req, res) => {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { sprint, tasks, wi, priority, description, url } = req.body;
+  const { sprint, wi, priority, description, url } = req.body;
 
   try {
     const newStorie = new Storie({
       sprint,
-      tasks,
       wi,
       priority,
       description,
@@ -140,13 +139,13 @@ router.put('/:id', [auth, storieValidations], async (req, res) => {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { tasks, wi, priority, description, url } = req.body;
+  const { wi, priority, description, url } = req.body;
 
   try {
     const criteria = { _id: req.params.id };
 
     await Storie.updateOne(criteria, {
-      $set: { tasks, wi, priority, description, url }
+      $set: { wi, priority, description, url }
     });
 
     res.json({ msg: 'Estória atualizada com sucesso!' });

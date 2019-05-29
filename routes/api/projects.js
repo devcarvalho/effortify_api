@@ -107,13 +107,12 @@ router.post('/', [auth, projectValidations], async (req, res) => {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { name, client, sprints, description, start_date, value } = req.body;
+  const { name, client, description, start_date, value } = req.body;
 
   try {
     const newProject = new Project({
       name,
       client,
-      sprints,
       description,
       start_date,
       value
@@ -143,13 +142,13 @@ router.put('/:id', [auth, projectValidations], async (req, res) => {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { name, client, sprints, description, start_date, value } = req.body;
+  const { name, client, description, start_date, value } = req.body;
 
   try {
     const criteria = { _id: req.params.id };
 
     await Project.updateOne(criteria, {
-      $set: { name, client, sprints, description, start_date, value }
+      $set: { name, client, description, start_date, value }
     });
 
     res.json({ msg: 'Projeto atualizado com sucesso!' });

@@ -2,18 +2,12 @@ const mongoose = require('mongoose');
 
 const sprintSchema = new mongoose.Schema({
   project: {
-    type: mongoose.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'project'
   },
-  stories: [
-    {
-      type: [mongoose.Types.ObjectId],
-      ref: 'storie'
-    }
-  ],
   team: [
     {
-      type: mongoose.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: 'user'
     }
   ],

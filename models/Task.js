@@ -1,21 +1,13 @@
 const mongoose = require('mongoose');
 
 const taskSchema = new mongoose.Schema({
-  project: {
-    type: mongoose.Types.ObjectId,
-    ref: 'project'
-  },
-  sprint: {
-    type: mongoose.Types.ObjectId,
-    ref: 'sprint'
-  },
   storie: {
-    type: mongoose.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'storie'
   },
   assigned_to: [
     {
-      type: mongoose.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: 'user'
     }
   ],
