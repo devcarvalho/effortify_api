@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const auth = require('../../middleware/auth');
+
 const { check, validationResult } = require('express-validator/check');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -10,6 +10,40 @@ const userValidations = [
   check('email', 'Por favor, digite um email válido!').isEmail(),
   check('password', 'A senha é obrigatória.').exists()
 ];
+
+// @route   GET api/auth
+// @desc    Check token validation
+// @access  public
+router.get('/', async (req, res) => {
+  if (req.headers && req.headers.authorization) {
+    let authorization = req.headers.authorization,
+      decoded;
+
+    try {
+      decoded = jwt.verify(authorization, config.get('jwtSecret'));
+
+      res.json({ user: decoded.user });
+    } catch (err) {
+      return res.status(401).json({
+        errors: [
+          {
+            msg:
+              'Você não possui permissão, por favor, contate o administrador do sistema.'
+          }
+        ]
+      });
+    }
+  } else {
+    return res.status(401).json({
+      errors: [
+        {
+          msg:
+            'Você não possui permissão, por favor, contate o administrador do sistema.'
+        }
+      ]
+    });
+  }
+});
 
 // @route   POST api/auth
 // @desc    Authenticate user and get token
@@ -50,7 +84,9 @@ router.post('/', userValidations, async (req, res) => {
 
     const payload = {
       user: {
-        id: user.id
+        id: user._id,
+        name: user.name,
+        level: user.level
       }
     };
 
