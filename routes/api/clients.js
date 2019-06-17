@@ -16,7 +16,8 @@ const clientValidations = [
 // @access  private
 router.get('/', auth, async (req, res) => {
   try {
-    const clients = await Client.find();
+    const clients = await Client.find().select('-avatar');
+
     res.json(clients);
   } catch (err) {
     res.status(500).json({
@@ -68,13 +69,15 @@ router.post('/', [auth, clientValidations], async (req, res) => {
 
   const { name, cnpj, email, phone_number, avatar } = req.body;
 
+  const avatarBuffer = new Buffer.from(avatar, 'base64');
+
   try {
     const newClient = new Client({
       name,
       cnpj,
       email,
       phone_number,
-      avatar
+      avatar: avatarBuffer
     });
 
     const client = await newClient.save();
@@ -103,11 +106,13 @@ router.put('/:id', [auth, clientValidations], async (req, res) => {
 
   const { name, cnpj, email, phone_number, avatar } = req.body;
 
+  const avatarBuffer = new Buffer.from(avatar, 'base64');
+
   try {
     const criteria = { _id: req.params.id };
 
     await Client.updateOne(criteria, {
-      $set: { name, cnpj, email, phone_number, avatar }
+      $set: { name, cnpj, email, phone_number, avatar: avatarBuffer }
     });
 
     res.json({ msg: 'Cliente atualizado com sucesso!' });
