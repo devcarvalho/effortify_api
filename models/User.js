@@ -31,10 +31,10 @@ const userSchema = new mongoose.Schema({
     type: String
   },
   hour_value: {
-    type: String
+    type: Number
   },
   avatar: {
-    type: String
+    type: Buffer
   }
 });
 

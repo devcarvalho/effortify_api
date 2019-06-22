@@ -33,7 +33,7 @@ const userValidations = [
 // @access  private
 router.get('/', auth, async (req, res) => {
   try {
-    const users = await User.find().select('-password');
+    const users = await User.find({ level: { $ne: 0 } }).select('-password');
     res.json(users);
   } catch (err) {
     res.status(500).json({
@@ -93,6 +93,8 @@ router.post('/', [auth, userValidations], async (req, res) => {
     avatar
   } = req.body;
 
+  const avatarBuffer = new Buffer.from(avatar, 'base64');
+
   try {
     // Check if user exists
     let user = await User.findOne({ email });
@@ -118,7 +120,7 @@ router.post('/', [auth, userValidations], async (req, res) => {
         role,
         phone_number: phone_number ? phone_number : '',
         hour_value: hour_value ? hour_value : '',
-        avatar: avatar ? avatar : ''
+        avatar: avatarBuffer
       });
     }
 
@@ -145,12 +147,9 @@ router.post('/', [auth, userValidations], async (req, res) => {
 // @desc    update user
 // @access  private
 router.put('/:id', [auth, userValidations], async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
-
   const { password, role, phone_number, hour_value, avatar } = req.body;
+
+  const avatarBuffer = new Buffer.from(avatar, 'base64');
 
   try {
     const salt = await bcrypt.genSalt(10);
@@ -160,7 +159,13 @@ router.put('/:id', [auth, userValidations], async (req, res) => {
     const criteria = { _id: req.params.id };
 
     await User.updateOne(criteria, {
-      $set: { password: newPassword, avatar, phone_number, hour_value, role }
+      $set: {
+        password: newPassword,
+        avatar: avatarBuffer,
+        phone_number,
+        hour_value,
+        role
+      }
     });
 
     res.json({ msg: 'Usuário atualizado com sucesso!' });
