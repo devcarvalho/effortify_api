@@ -142,13 +142,13 @@ router.put('/:id', [auth, projectValidations], async (req, res) => {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { name, client, description, start_date, value } = req.body;
+  const { name, client, description, value } = req.body;
 
   try {
     const criteria = { _id: req.params.id };
 
     await Project.updateOne(criteria, {
-      $set: { name, client, description, start_date, value }
+      $set: { name, client, description, value }
     });
 
     res.json({ msg: 'Projeto atualizado com sucesso!' });

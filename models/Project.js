@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const projectSchema = new mongoose.Schema({
   client: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'client'
+    ref: 'client',
+    required: true
   },
   name: {
     type: String,
