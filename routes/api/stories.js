@@ -69,7 +69,7 @@ router.get('/sprint/:id', auth, async (req, res) => {
       return res.status(404).json({ msg: 'Sprint não encontrada!' });
     }
 
-    const stories = await Stories.find({ sprint: req.params.id });
+    const stories = await Storie.find({ sprint: req.params.id });
 
     if (!stories) {
       return res
@@ -84,6 +84,7 @@ router.get('/sprint/:id', auth, async (req, res) => {
         .status(404)
         .json({ msg: 'Não foram encontradas estórias para esta sprint!' });
     }
+    console.log('err', err);
     res.status(500).json({
       error: [
         {

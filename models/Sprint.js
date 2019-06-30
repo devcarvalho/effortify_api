@@ -11,8 +11,9 @@ const sprintSchema = new mongoose.Schema({
       ref: 'user'
     }
   ],
-  description: {
-    type: String
+  name: {
+    type: String,
+    required: true
   },
   start_date: {
     type: Date,
@@ -21,6 +22,9 @@ const sprintSchema = new mongoose.Schema({
   end_date: {
     type: Date,
     required: true
+  },
+  description: {
+    type: String
   }
 });
 
